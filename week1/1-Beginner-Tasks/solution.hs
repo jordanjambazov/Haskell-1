@@ -191,3 +191,36 @@ whatZodiacSignIs day month =
             signName (head' signsList)
           else
             findZodiac (tail' signsList)
+
+-- 29. More type signatures!
+-- TODO
+
+-- 30. Concatenate the lists
+concatenate :: [a] -> [a] -> [a]
+concatenate listOne listTwo = listOne ++ listTwo
+
+-- 31. Take all elements of a list without the last one
+init' :: [a] -> [a]
+init' [x]    = []
+init' (x:xs) = x : init' xs
+init' []     = error "You can't do that with the empty list!"
+
+-- 32. Take the first n elements from a list
+take' :: Integer -> [a] -> [a]
+take' _ []               = []
+take' n _      | n <= 0  = []
+take' n (x:xs)           = x : take' (n-1) xs
+
+-- 33. Drop the first n elements from a list
+drop' :: Int -> [a] -> [a]
+drop' n xs     | n <= 0  = xs
+drop' n []               = []
+drop' n (_:xs)           = drop (n-1) xs
+
+-- 34. Zipping lists
+zip' :: [a] -> [b] -> [(a, b)]
+zip' []     _            = []
+zip' _      []           = []
+zip' (a:as) (b:bs)       = (a, b) : zip' as bs
+
+-- 35. Now unzip it!
