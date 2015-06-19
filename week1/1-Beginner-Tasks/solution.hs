@@ -224,3 +224,6 @@ zip' _      []           = []
 zip' (a:as) (b:bs)       = (a, b) : zip' as bs
 
 -- 35. Now unzip it!
+unzip' [] = ([], [])
+unzip' ((a, b):xs) = (a : (first2Tuple rest), b : (second2Tuple rest))
+    where rest = unzip' xs
