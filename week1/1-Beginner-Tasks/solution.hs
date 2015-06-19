@@ -101,6 +101,14 @@ nth num (x:xs) = if num < 1 then
                  x else
                  nth (num-1) xs
 
+firstTuple (x,_,_) = x
+first2Tuple (x,_) = x
+
+secondTuple (_,y,_) = y
+second2Tuple (_,y) = y
+
+thirdTuple (_,_,z) = z
+
 -- 20. Is an element member of a list?
 member item xs = any (==item) xs
 
@@ -146,3 +154,40 @@ isValidID egn =
     residue egn = (sumEGN egn) `mod` 11
     controlDigit egn =
       if residue egn < 10 then residue egn else 0
+
+-- 28. Get the zodiac sign from an ID
+whatZodiacSignIs :: Int -> Int -> [Char]
+whatZodiacSignIs day month =
+  findZodiac signs
+  where signs = [
+            ("Овен",      (21, 3),  (20, 4)),
+            ("Телец",     (21, 4),  (20, 5)),
+            ("Близнаци",  (21, 5),  (20, 6)),
+            ("Рак",       (21, 6),  (21, 7)),
+            ("Лъв",       (22, 7),  (22, 8)),
+            ("Дева",      (23, 8),  (22, 9)),
+            ("Везни",     (23, 9),  (22, 10)),
+            ("Скорпион",  (23, 10), (21, 11)),
+            ("Стрелец",   (22, 11), (21, 12)),
+            ("Козирог",   (22, 12), (19, 1)),
+            ("Водолей",   (20, 1),  (18, 2)),
+            ("Риби",      (19, 2),  (20, 3))
+          ]
+        signName sign = firstTuple sign
+        startDate sign = secondTuple sign
+        endDate sign = thirdTuple sign
+        getDay date = first2Tuple date
+        getMonth date = second2Tuple date
+        dateInSign sign =
+          (
+            (day >= getDay (startDate sign)) && (month == getMonth (startDate sign))
+          )
+          ||
+          (
+            (day <= getDay (endDate sign)) && (month == getMonth (startDate sign))
+          )
+        findZodiac signsList =
+          if dateInSign (head' signsList) then
+            signName (head' signsList)
+          else
+            findZodiac (tail' signsList)
