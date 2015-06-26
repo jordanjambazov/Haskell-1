@@ -24,9 +24,6 @@ cycle' [] = []
 cycle' xs = xs ++ cycle' xs 
 
 
-
 -- 06. Take every nth element from a list
---every :: Integral -> [a] -> [a]
---every n l = helper 0 l
---       where helper i (x:xs)  | (i `mod` n) == 0    = helper (i + 1) xs
-
+every :: Integral a => a -> [t] -> [t]
+every n l = [a | (i, a) <- zip [1..] l, i `mod` n == 0]
