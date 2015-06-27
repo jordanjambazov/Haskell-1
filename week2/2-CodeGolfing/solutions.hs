@@ -63,4 +63,13 @@ row nth xs = xs !! nth
 -- 12. Transpose a matrix
 transpose' :: [[a]] -> [[a]]
 transpose' ([]:xs) = []
-transpose' m = map (!! 0) m : transpose' (map tail m)
+transpose' m = map head m : transpose' (map tail m)
+
+-- 13. Sum of matrices
+sumMatrices :: Num a => [[a]] -> [[a]] -> [[a]]
+sumMatrices (x:xs) (y:ys) = map (\(a, b) -> a + b) (zip x y) : sumMatrices xs ys
+sumMatrices _      _      = []
+
+-- 14. Multiply matrices
+multMatrices :: Num a => [[a]] -> [[a]] -> [[a]]
+multMatrices a b = [ [ sum $ zipWith (*) ar bc | bc <- transpose' b ] | ar <- a ]
