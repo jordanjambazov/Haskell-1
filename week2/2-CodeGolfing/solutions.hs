@@ -73,3 +73,9 @@ sumMatrices _      _      = []
 -- 14. Multiply matrices
 multMatrices :: Num a => [[a]] -> [[a]] -> [[a]]
 multMatrices a b = [ [ sum $ zipWith (*) ar bc | bc <- transpose' b ] | ar <- a ]
+
+-- 15. Histogram
+histogram :: [Int] -> IO()
+histogram xs = putStr [ a | a <- '*', ] ++ "\n0123456789\n"
+
+countNum n xs = length (filter (== n) xs)
