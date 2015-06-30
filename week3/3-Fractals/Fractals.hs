@@ -16,7 +16,7 @@ maxIterations = 127
 
 -- The size of the image we'll colour
 screen :: Num a => (a, a)
-screen = (600, 600)
+screen = (1920, 1080)
 
 -- The part of the fractal we want to see
 window :: (Coordinate, Coordinate)
@@ -32,8 +32,8 @@ pixelToCoordinate x y ((minx, maxy), (maxx, miny)) = scale
        screenHeight = snd screen
        horizontalRatio = screenWidth / width
        verticalRatio = screenHeight / height
-       offsetX = (realToFrac x) / horizontalRatio
-       offsetY = (realToFrac y) / verticalRatio
+       offsetX = realToFrac x / horizontalRatio
+       offsetY = realToFrac y / verticalRatio
        scale = (minx + offsetX, miny + offsetY)
 
 -- Implement the formula for Mandelbrot's fractal
@@ -41,7 +41,10 @@ mandelbrot :: Point -- Coordinate for calculation
            -> Point -- Current z value
            -> Int   -- Number of current iteration
            -> Int   -- Iterations before diverging
-mandelbrot c z iter = undefined
+mandelbrot c z iter | iter >= 100  = 0
+                    | otherwise    = if magnitude(z') > 10 then iter
+                                     else mandelbrot c z' (iter+1)
+                                     where z' = z^2 + c
 
 -- Returning the number of iterations needed for given
 -- point to diverge
