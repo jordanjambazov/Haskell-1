@@ -16,7 +16,7 @@ maxIterations = 127
 
 -- The size of the image we'll colour
 screen :: Num a => (a, a)
-screen = (1920, 1080)
+screen = (1000, 1000)
 
 -- The part of the fractal we want to see
 window :: (Coordinate, Coordinate)
