@@ -26,12 +26,16 @@ instance Applicative Parser where
 
 satisfy :: (Char -> Bool) -> Parser Char
 satisfy p = Parser $ \s ->
-  case s of 
+  case s of
   (c:cs) -> if p c then Just (c, cs) else Nothing
   _      -> Nothing
 
 char :: Char -> Parser Char
 char = satisfy . (==)
+
+string :: String -> Parser String
+string (c:cs) = liftA2 (:) (char c) $ string cs
+string ""     = pure ""
 
 openingBrace :: Parser Char
 openingBrace = char '('

@@ -6,35 +6,46 @@ import Control.Applicative
 import qualified Data.Char as C
   ( isAlpha
   , isDigit
+  , digitToInt
   )
 
 
+plusP :: Parser Oper
+plusP = const Plus <$> char '+'
+
+minusP :: Parser Oper
+minusP = const Minus <$> char '-'
+
 oper :: Parser Oper
-oper = undefined
+oper = plusP <|> minusP
 
 variable :: Parser Variable
-variable = undefined
+variable = oneOrMore $ satisfy (C.isAlpha)
 
 value :: Parser Value
-value = undefined
+value = read <$> (oneOrMore $ satisfy (C.isDigit))
 
 expr :: Parser Expr
-expr = undefined
+expr =    Var <$> variable
+      <|> Val <$> value
+      <|> liftA3 Op expr oper expr
 
 assignP :: Parser Statement
-assignP = undefined
+assignP = liftA2 Assign (variable) expr
 
 incrP :: Parser Statement
-incrP = undefined
+incrP = Incr <$> (string "++" *> variable)
 
 decrP :: Parser Statement
-decrP = undefined
+decrP = Decr <$> (string "--" *> variable)
 
 ifP :: Parser Statement
-ifP = undefined
+ifP = liftA2 If (string "if(" *> expr <* string "){") (statement <* char '}')
+
+str = string
 
 forP :: Parser Statement
-forP = undefined
+forP = (liftA3 For (str "for(" *> statement) (char ';' *> expr <* char ';') (statement <* str "){")) <*> (statement <* char '}')
 
 statement :: Parser Statement
-statement = undefined
+statement = assignP <|> ifP <|> forP <|> incrP
